@@ -8,7 +8,7 @@ import {
 import { useState } from "react";
 import AddIcon from "../assets/images/add.svg";
 
-export default function AuthForm() {
+export default function AuthForm({ type, onSubmit, onMoveToOtherScreen }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,25 +24,40 @@ export default function AuthForm() {
 
   const onAddPhoto = () => {};
 
+  let containerHeight;
+  if (type === "registration") {
+    containerHeight = 0.68;
+  }
+  if (type === "login") {
+    containerHeight = 0.6;
+  }
+
   return (
-    <View style={styles.container}>
-      <View style={styles.avatar}>
-        <TouchableHighlight
-          underlayColor="#ffffff"
-          onPress={onAddPhoto}
-          style={styles.addIcon}
-        >
-          <AddIcon width={25} height={25} />
-        </TouchableHighlight>
-      </View>
-      <Text style={styles.title}>Регистрация</Text>
-      <TextInput
-        placeholderTextColor="#BDBDBD"
-        value={name}
-        onChangeText={nameHandler}
-        placeholder="Логин"
-        style={styles.input}
-      />
+    <View style={{ flex: containerHeight, ...styles.container }}>
+      {type === "registration" && (
+        <View style={styles.avatar}>
+          <TouchableHighlight
+            underlayColor="#ffffff"
+            onPress={onAddPhoto}
+            style={styles.addIcon}
+          >
+            <AddIcon width={25} height={25} />
+          </TouchableHighlight>
+        </View>
+      )}
+      <Text style={styles.title}>
+        {type === "registration" && "Регистрация"}
+        {type === "login" && "Войти"}
+      </Text>
+      {type === "registration" && (
+        <TextInput
+          placeholderTextColor="#BDBDBD"
+          value={name}
+          onChangeText={nameHandler}
+          placeholder="Логин"
+          style={styles.input}
+        />
+      )}
       <TextInput
         placeholderTextColor="#BDBDBD"
         value={email}
@@ -72,32 +87,32 @@ export default function AuthForm() {
       <TouchableHighlight
         underlayColor="#D15900"
         style={styles.button}
-        onPress={onRegistration}
+        onPress={() => {
+          onSubmit(name, email, password);
+        }}
       >
-        <Text style={styles.buttonText}>Зарегистрироваться</Text>
+        <Text style={styles.buttonText}>
+          {type === "registration" && "Зарегистрироваться"}
+          {type === "login" && "Войти"}
+        </Text>
       </TouchableHighlight>
       <TouchableHighlight
         underlayColor="#FFFFFF"
         style={styles.loginLink}
-        onPress={onLogin}
+        onPress={onMoveToOtherScreen}
       >
-        <Text style={styles.loginText}>Уже есть аккаунт? Войти</Text>
+        <Text style={styles.loginText}>
+          {type === "registration" && "Уже есть аккаунт? Войти"}
+          {type === "login" && "Нет аккаунта? Зарегистрироваться"}
+        </Text>
       </TouchableHighlight>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-  },
-  bg: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
   container: {
     position: "relative",
-    flex: 0.68,
     alignItems: "stretch",
     paddingHorizontal: 16,
     backgroundColor: "#ffffff",
@@ -132,8 +147,8 @@ const styles = StyleSheet.create({
     color: "#212121",
   },
   input: {
+    height: 50,
     paddingHorizontal: 16,
-    paddingVertical: 10,
     borderWidth: 1,
     borderColor: "#E8E8E8",
     borderRadius: 8,
