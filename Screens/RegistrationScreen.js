@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: "50%",
     top: -60,
-    transform: [{ translateX: -66 }],
+    transform: [{ translateX: -50 }],
     width: 120,
     height: 120,
     backgroundColor: "#F6F6f6",
@@ -174,8 +174,9 @@ const styles = StyleSheet.create({
   },
   showPassword: {
     position: "absolute",
-    top: 18,
+    top: "50%",
     right: 16,
+    transform: [{ translateY: -15 }],
   },
   showPasswordText: {
     fontFamily: "Roboto-Regular",
