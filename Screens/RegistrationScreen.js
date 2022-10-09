@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 import AddIcon from "../assets/images/add.svg";
 
-export function RegistrationScreen() {
+export function RegistrationScreen({ navigation }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,21 +34,23 @@ export function RegistrationScreen() {
     setShowPassword(!showPassword);
   };
 
-  const onLogin = () => {};
+  const onLogin = () => {
+    navigation.navigate("Login");
+  };
 
   const onAddPhoto = () => {};
 
   return (
-    <ImageBackground
-      source={require("../assets/images/bg.jpg")}
-      resizeMode="cover"
-      style={styles.bg}
+    <KeyboardAvoidingView
+      style={styles.mainContainer}
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
     >
-      <KeyboardAvoidingView
-        style={styles.mainContainer}
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ImageBackground
+          source={require("../assets/images/bg.jpg")}
+          resizeMode="cover"
+          style={styles.bg}
+        >
           <View style={styles.container}>
             <View style={styles.avatar}>
               <TouchableHighlight
@@ -108,19 +110,19 @@ export function RegistrationScreen() {
               <Text style={styles.loginText}>Уже есть аккаунт? Войти</Text>
             </TouchableHighlight>
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </ImageBackground>
+        </ImageBackground>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    justifyContent: "flex-end",
   },
   bg: {
     flex: 1,
+    justifyContent: "flex-end",
   },
   container: {
     position: "relative",

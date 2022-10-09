@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 
-export function LoginScreen() {
+export function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +30,9 @@ export function LoginScreen() {
     setShowPassword(!showPassword);
   };
 
-  const onLogin = () => {};
+  const onLogin = () => {
+    navigation.navigate("Registration");
+  };
 
   return (
     <ImageBackground

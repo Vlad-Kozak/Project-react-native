@@ -1,6 +1,14 @@
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { useFonts } from "expo-font";
 import { LoginScreen } from "./Screens/LoginScreen";
 import { RegistrationScreen } from "./Screens/RegistrationScreen";
+
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Sending..."]);
+
+const MainStack = createStackNavigator();
 
 export default function App() {
   const [fontLoaded] = useFonts({
@@ -13,5 +21,21 @@ export default function App() {
     return null;
   }
 
-  return <RegistrationScreen />;
+  return (
+    <NavigationContainer>
+      <MainStack.Navigator initialRouteName="Registration">
+        <MainStack.Screen
+          name="Registration"
+          component={RegistrationScreen}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        {/* <MainStack.Screen name="Home" component={} /> */}
+      </MainStack.Navigator>
+    </NavigationContainer>
+  );
 }
