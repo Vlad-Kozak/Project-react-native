@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
-import { AuthForm } from "../components/AuthForm";
+import { AuthForm } from "../Components/AuthForm";
 
 export function RegistrationScreen({ navigation }) {
   const onRegistration = (name, email, password) => {

@@ -68,7 +68,7 @@ export function HomeScreen() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    height: 83,
+    height: 113,
   },
   tabBarItem: { marginBottom: 20 },
   postsIconWrap: {
@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   header: {
+    position: "relative",
     height: 88,
     flex: 0,
     flexDirection: "row",
@@ -113,5 +114,9 @@ const styles = StyleSheet.create({
     lineHeight: 17,
     color: "#212121",
   },
-  logout: {},
+  logout: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+  },
 });
