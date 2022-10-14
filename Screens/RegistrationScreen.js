@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
-import AuthForm from "../Components/AuthForm";
+import { AuthForm } from "../components/AuthForm";
 
 export function RegistrationScreen({ navigation }) {
   const onRegistration = (name, email, password) => {
@@ -14,6 +14,7 @@ export function RegistrationScreen({ navigation }) {
       email,
       password,
     });
+    navigation.navigate("Home");
   };
 
   const onMoveToLoginScreen = () => {

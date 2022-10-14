@@ -3,12 +3,14 @@ import {
   Text,
   TextInput,
   TouchableHighlight,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { useState } from "react";
 import AddIcon from "../assets/images/add.svg";
+import { CustomButton } from "./CustomButton";
 
-export default function AuthForm({ type, onSubmit, onMoveToOtherScreen }) {
+export function AuthForm({ type, onSubmit, onMoveToOtherScreen }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,13 +38,14 @@ export default function AuthForm({ type, onSubmit, onMoveToOtherScreen }) {
     <View style={{ flex: containerHeight, ...styles.container }}>
       {type === "registration" && (
         <View style={styles.avatar}>
-          <TouchableHighlight
+          <TouchableOpacity
+            activeOpacity={0.5}
             underlayColor="#ffffff"
             onPress={onAddPhoto}
             style={styles.addIcon}
           >
             <AddIcon width={25} height={25} />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       )}
       <Text style={styles.title}>
@@ -74,28 +77,34 @@ export default function AuthForm({ type, onSubmit, onMoveToOtherScreen }) {
           secureTextEntry={!showPassword}
           style={styles.input}
         />
-        <TouchableHighlight
-          underlayColor="#F6F6F6"
+        <TouchableOpacity
+          activeOpacity={0.5}
           style={styles.showPassword}
           onPress={onShowPassword}
         >
           <Text style={styles.showPasswordText}>
             {showPassword ? "Скрыть" : "Показать"}
           </Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
-      <TouchableHighlight
-        underlayColor="#D15900"
-        style={styles.button}
-        onPress={() => {
-          onSubmit(name, email, password);
-        }}
-      >
-        <Text style={styles.buttonText}>
-          {type === "registration" && "Зарегистрироваться"}
-          {type === "login" && "Войти"}
-        </Text>
-      </TouchableHighlight>
+      <View style={styles.button}>
+        {type === "registration" && (
+          <CustomButton
+            text={"Зарегистрироваться"}
+            onPress={() => {
+              onSubmit(name, email, password);
+            }}
+          />
+        )}
+        {type === "login" && (
+          <CustomButton
+            text={"Войти"}
+            onPress={() => {
+              onSubmit(name, email, password);
+            }}
+          />
+        )}
+      </View>
       <TouchableHighlight
         underlayColor="#FFFFFF"
         style={styles.loginLink}
@@ -175,17 +184,6 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 27,
     marginBottom: 16,
-    paddingHorizontal: 32,
-    paddingVertical: 16,
-    backgroundColor: "#FF6C00",
-    borderRadius: 100,
-  },
-  buttonText: {
-    fontFamily: "Roboto-Regular",
-    fontSize: 16,
-    lineHeight: 16,
-    textAlign: "center",
-    color: "#ffffff",
   },
   loginLink: {},
   loginText: {

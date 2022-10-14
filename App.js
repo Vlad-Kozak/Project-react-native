@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useFonts } from "expo-font";
 import { LoginScreen } from "./Screens/LoginScreen";
 import { RegistrationScreen } from "./Screens/RegistrationScreen";
+import { HomeScreen } from "./Screens/HomeScreen";
 
 import { LogBox } from "react-native";
 LogBox.ignoreLogs(["Sending..."]);
@@ -34,7 +35,11 @@ export default function App() {
           component={LoginScreen}
           options={{ headerShown: false }}
         />
-        {/* <MainStack.Screen name="Home" component={} /> */}
+        <MainStack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
       </MainStack.Navigator>
     </NavigationContainer>
   );
