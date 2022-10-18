@@ -1,23 +1,28 @@
-import { View, StyleSheet } from "react-native";
-import { UserCard } from "../Components/UserCard";
+import { createStackNavigator } from "@react-navigation/stack";
+import { PostsDefaultScreen } from "./PostsDefaultScreen";
+import { CommentsScreen } from "./CommentsScreen";
+import { MapScreen } from "./MapScreen";
+
+const Stack = createStackNavigator();
 
 export function PostsScreen() {
   return (
-    <View style={styles.container}>
-      <UserCard />
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="DefaultPosts"
+        component={PostsDefaultScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Comments"
+        component={CommentsScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Map"
+        component={MapScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-    paddingHorizontal: 16,
-    paddingVertical: 32,
-    borderBottomWidth: 1,
-    borderTopWidth: 1,
-    borderBottomColor: "#c3c3c3",
-    borderTopColor: "#c3c3c3",
-  },
-});

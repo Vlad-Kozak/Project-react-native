@@ -1,3 +1,4 @@
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { PostsScreen } from "./PostsScreen";
 import { CreatePostScreen } from "./CreatePostScreen";
@@ -5,8 +6,7 @@ import { ProfileScreen } from "./ProfileScreen";
 import PostsIcon from "../assets/images/grid.svg";
 import CreatePostIcon from "../assets/images/plus.svg";
 import ProfileIcon from "../assets/images/user.svg";
-import LogoutIcon from "../assets/images/log-out.svg";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Header } from "../Components/Header";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,6 +18,7 @@ export function HomeScreen() {
         tabBarStyle: styles.tabBar,
         tabBarItemStyle: styles.tabBarItem,
       }}
+      sceneContainerStyle={styles.scene}
     >
       <Tab.Screen
         options={{
@@ -28,12 +29,7 @@ export function HomeScreen() {
           ),
           header: ({ navigation, route, options }) => {
             return (
-              <View style={styles.header}>
-                <Text style={styles.title}>Публикации</Text>
-                <TouchableOpacity style={styles.logout}>
-                  <LogoutIcon width={24} height={24} />
-                </TouchableOpacity>
-              </View>
+              <Header logout onClickLogout={() => {}} title="Публикации" />
             );
           },
         }}
@@ -47,6 +43,17 @@ export function HomeScreen() {
               <CreatePostIcon width={16} height={16} />
             </View>
           ),
+          header: ({ navigation, route, options }) => {
+            return (
+              <Header
+                back
+                onClickBack={() => {
+                  navigation.navigate("Posts");
+                }}
+                title="Создать публикацию"
+              />
+            );
+          },
         }}
         name="CreatePost"
         component={CreatePostScreen}
@@ -98,25 +105,10 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
   },
-  header: {
+  scene: {
     position: "relative",
-    height: 88,
-    flex: 0,
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "center",
     backgroundColor: "#ffffff",
-  },
-  title: {
-    padding: 11,
-    fontFamily: "Roboto-Medium",
-    fontSize: 17,
-    lineHeight: 17,
-    color: "#212121",
-  },
-  logout: {
-    position: "absolute",
-    bottom: 10,
-    right: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#c3c3c3",
   },
 });
