@@ -1,12 +1,15 @@
 import { Image, StyleSheet, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 
-export function UserCard({ userData }) {
+export default function UserCard() {
+  const { displayName, email, photoURL } = useSelector((state) => state.auth);
+
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={require("../assets/images/bg.jpg")} />
+      <Image style={styles.image} source={{ uri: photoURL }} />
       <View style={styles.textWrap}>
-        <Text style={styles.name}>Vlad Kozak</Text>
-        <Text style={styles.email}>k911k12@gmail.com</Text>
+        <Text style={styles.name}>{displayName}</Text>
+        <Text style={styles.email}>{email}</Text>
       </View>
     </View>
   );
@@ -24,6 +27,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginRight: 8,
     resizeMode: "cover",
+    backgroundColor: "#bdbdbd",
   },
   name: {
     fontFamily: "Roboto-Bold",

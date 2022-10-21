@@ -1,15 +1,14 @@
 import * as React from "react";
+import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { useFonts } from "expo-font";
-import { LoginScreen } from "./Screens/LoginScreen";
-import { RegistrationScreen } from "./Screens/RegistrationScreen";
-import { HomeScreen } from "./Screens/HomeScreen";
-
 import { LogBox } from "react-native";
+import { store } from "./redux/store";
+import NavigationScreen from "./Screens/NavigationScreen";
 LogBox.ignoreLogs(["Sending..."]);
-
-const MainStack = createStackNavigator();
+LogBox.ignoreLogs([
+  "AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage",
+]);
 
 export default function App() {
   const [fontLoaded] = useFonts({
@@ -23,24 +22,10 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Registration">
-        <MainStack.Screen
-          name="Registration"
-          component={RegistrationScreen}
-          options={{ headerShown: false }}
-        />
-        <MainStack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-        <MainStack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-      </MainStack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <NavigationScreen />
+      </NavigationContainer>
+    </Provider>
   );
 }

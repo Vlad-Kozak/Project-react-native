@@ -1,16 +1,12 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 
-export default function Comment() {
+export default function Comment({ comment }) {
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={require("../assets/images/bg.jpg")} />
+      <Image style={styles.image} source={{ uri: comment.photoURL }} />
       <View style={styles.commentWrap}>
-        <Text style={styles.comment}>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam,
-          aut. Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-          Recusandae unde nostrum maxime!
-        </Text>
-        <Text style={styles.date}>21.21.2222</Text>
+        <Text style={styles.comment}>{comment.commentText}</Text>
+        <Text style={styles.date}>{comment.createdAt}</Text>
       </View>
     </View>
   );
@@ -20,11 +16,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginBottom: 15,
   },
   image: {
     width: 28,
     height: 28,
     borderRadius: 50,
+    backgroundColor: "#bdbdbd",
   },
   commentWrap: {
     width: "87%",

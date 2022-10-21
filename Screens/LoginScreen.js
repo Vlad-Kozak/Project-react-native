@@ -1,3 +1,4 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import {
   ImageBackground,
   Keyboard,
@@ -5,15 +6,23 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
-import { AuthForm } from "../Components/AuthForm";
+import { useDispatch } from "react-redux";
+import AuthForm from "../Components/AuthForm";
+import { auth } from "../firebase";
+import { authActions } from "../redux/auth/authSlice";
 
-export function LoginScreen({ navigation }) {
-  const onLogin = (name, email, password) => {
-    console.log({
-      email,
-      password,
-    });
-    navigation.navigate("Home");
+export default function LoginScreen({ navigation }) {
+  const dispatch = useDispatch();
+
+  const onLogin = async (name, eMail, password) => {
+    try {
+      await signInWithEmailAndPassword(auth, eMail, password);
+
+      const { displayName, photoURL, uid, email } = auth.currentUser;
+      dispatch(authActions.login({ displayName, photoURL, uid, email }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onMoveToRegistrationScreen = () => {

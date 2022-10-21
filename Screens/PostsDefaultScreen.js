@@ -1,15 +1,47 @@
-import { View, StyleSheet } from "react-native";
-import { Post } from "../Components/Post";
-import { UserCard } from "../Components/UserCard";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { StyleSheet, FlatList } from "react-native";
+import { useSelector } from "react-redux";
+import Post from "../Components/Post";
+import UserCard from "../Components/UserCard";
+import { db } from "../firebase";
 
-export function PostsDefaultScreen({ navigation }) {
+export default function PostsDefaultScreen({ navigation }) {
+  const [posts, setPosts] = useState([]);
+  const uid = useSelector((state) => state.auth.uid);
+
+  const getPosts = async () => {
+    const querySnapshot = await getDocs(collection(db, "posts"));
+    const storage = [];
+    querySnapshot.forEach((doc) => {
+      storage.push({ ...doc.data(), id: doc.id });
+    });
+    const filteredStorage = storage.filter((el) => el.uid === uid);
+    setPosts(filteredStorage);
+  };
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, "posts"),
+      (snapshot) => {
+        getPosts();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    return () => unsubscribe();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <View style={styles.userCardWrap}>
-        <UserCard />
-      </View>
-      <Post navigation={navigation} />
-    </View>
+    <FlatList
+      style={styles.container}
+      ListHeaderComponent={<UserCard />}
+      ListHeaderComponentStyle={styles.userCardWrap}
+      data={posts}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <Post post={item} navigation={navigation} />}
+    />
   );
 }
 

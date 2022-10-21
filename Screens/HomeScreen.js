@@ -1,16 +1,21 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { PostsScreen } from "./PostsScreen";
-import { CreatePostScreen } from "./CreatePostScreen";
-import { ProfileScreen } from "./ProfileScreen";
+import PostsScreen from "./PostsScreen";
+import CreatePostScreen from "./CreatePostScreen";
+import ProfileScreen from "./ProfileScreen";
 import PostsIcon from "../assets/images/grid.svg";
 import CreatePostIcon from "../assets/images/plus.svg";
 import ProfileIcon from "../assets/images/user.svg";
-import { Header } from "../Components/Header";
+import Header from "../Components/Header";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
+import { useDispatch } from "react-redux";
+import { authActions } from "../redux/auth/authSlice";
+import { defaultProps } from "react-native-web/dist/cjs/modules/forwardedProps";
 
 const Tab = createBottomTabNavigator();
 
-export function HomeScreen() {
+export default function HomeScreen() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -27,11 +32,7 @@ export function HomeScreen() {
               <PostsIcon width={28} height={28} />
             </View>
           ),
-          header: ({ navigation, route, options }) => {
-            return (
-              <Header logout onClickLogout={() => {}} title="Публикации" />
-            );
-          },
+          headerShown: false,
         }}
         name="Posts"
         component={PostsScreen}
@@ -65,6 +66,7 @@ export function HomeScreen() {
               <ProfileIcon width={28} height={28} />
             </View>
           ),
+          headerShown: false,
         }}
         name="Profile"
         component={ProfileScreen}

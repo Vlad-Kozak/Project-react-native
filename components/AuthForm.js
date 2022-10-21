@@ -7,10 +7,15 @@ import {
   View,
 } from "react-native";
 import { useState } from "react";
-import AddIcon from "../assets/images/add.svg";
-import { CustomButton } from "./CustomButton";
+import CustomButton from "./CustomButton";
+import Avatar from "./Avatar";
 
-export function AuthForm({ type, onSubmit, onMoveToOtherScreen }) {
+export default function AuthForm({
+  type,
+  onSubmit,
+  onMoveToOtherScreen,
+  sendAvatar,
+}) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,8 +29,6 @@ export function AuthForm({ type, onSubmit, onMoveToOtherScreen }) {
     setShowPassword(!showPassword);
   };
 
-  const onAddPhoto = () => {};
-
   let containerHeight;
   if (type === "registration") {
     containerHeight = 0.68;
@@ -38,14 +41,7 @@ export function AuthForm({ type, onSubmit, onMoveToOtherScreen }) {
     <View style={{ flex: containerHeight, ...styles.container }}>
       {type === "registration" && (
         <View style={styles.avatar}>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            underlayColor="#ffffff"
-            onPress={onAddPhoto}
-            style={styles.addIcon}
-          >
-            <AddIcon width={25} height={25} />
-          </TouchableOpacity>
+          <Avatar sendAvatar={sendAvatar} />
         </View>
       )}
       <Text style={styles.title}>
@@ -133,17 +129,6 @@ const styles = StyleSheet.create({
     left: "50%",
     top: -60,
     transform: [{ translateX: -50 }],
-    width: 120,
-    height: 120,
-    backgroundColor: "#F6F6f6",
-    borderRadius: 16,
-  },
-  addIcon: {
-    position: "absolute",
-    top: 81,
-    left: 107,
-    width: 25,
-    height: 25,
   },
   title: {
     marginTop: 92,

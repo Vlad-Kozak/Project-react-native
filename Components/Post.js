@@ -2,29 +2,37 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MapPinIcon from "../assets/images/map-pin.svg";
 import CommentsIcon from "../assets/images/comments.svg";
 
-export function Post({ post, navigation }) {
+export default function Post({ post, navigation }) {
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={require("../assets/images/bg.jpg")} />
-      <Text style={styles.name}>Name</Text>
+      <Image style={styles.image} source={{ uri: post.photoUri }} />
+      <Text style={styles.name}>{post.name}</Text>
       <View style={styles.descWrap}>
         <TouchableOpacity
           style={styles.descCase}
           onPress={() => {
-            navigation.navigate("Comments");
+            navigation.navigate("Comments", {
+              id: post.id,
+              comments: post.comments,
+              image: post.photoUri,
+            });
           }}
         >
           <CommentsIcon />
-          <Text style={styles.comments}>12</Text>
+          <Text style={styles.comments}>{post.comments.length}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.descCase}
           onPress={() => {
-            navigation.navigate("Map");
+            navigation.navigate("Map", {
+              location: post.location,
+              name: post.name,
+              place: post.place,
+            });
           }}
         >
           <MapPinIcon />
-          <Text style={styles.place}>Kiev</Text>
+          <Text style={styles.place}>{post.place}</Text>
         </TouchableOpacity>
       </View>
     </View>

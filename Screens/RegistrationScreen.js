@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import {
   ImageBackground,
   Keyboard,
@@ -5,20 +6,37 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
-import { AuthForm } from "../Components/AuthForm";
+import AuthForm from "../Components/AuthForm";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../firebase";
+import { authActions } from "../redux/auth/authSlice";
+import { useState } from "react";
 
-export function RegistrationScreen({ navigation }) {
-  const onRegistration = (name, email, password) => {
-    console.log({
-      name,
-      email,
-      password,
-    });
-    navigation.navigate("Home");
+export default function RegistrationScreen({ navigation }) {
+  const dispatch = useDispatch();
+  const [avatar, setAvatar] = useState(null);
+
+  const onRegistration = async (name, email, password) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(auth.currentUser, {
+        displayName: name,
+        photoURL: avatar,
+      });
+
+      const { displayName, photoURL, uid, email } = auth.currentUser;
+      dispatch(authActions.login({ displayName, photoURL, uid, email }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onMoveToLoginScreen = () => {
     navigation.navigate("Login");
+  };
+
+  const sendAvatar = (uri) => {
+    setAvatar(uri);
   };
 
   return (
@@ -36,6 +54,7 @@ export function RegistrationScreen({ navigation }) {
             type="registration"
             onSubmit={onRegistration}
             onMoveToOtherScreen={onMoveToLoginScreen}
+            sendAvatar={sendAvatar}
           />
         </ImageBackground>
       </TouchableWithoutFeedback>

@@ -1,27 +1,56 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { PostsDefaultScreen } from "./PostsDefaultScreen";
-import { CommentsScreen } from "./CommentsScreen";
-import { MapScreen } from "./MapScreen";
+import PostsDefaultScreen from "./PostsDefaultScreen";
+import CommentsScreen from "./CommentsScreen";
+import MapScreen from "./MapScreen";
+import Header from "../Components/Header";
 
 const Stack = createStackNavigator();
 
-export function PostsScreen() {
+export default function PostsScreen() {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="DefaultPosts"
         component={PostsDefaultScreen}
-        options={{ headerShown: false }}
+        options={{
+          header: ({ navigation, route, options }) => {
+            return <Header logout title="Публикации" />;
+          },
+        }}
       />
       <Stack.Screen
         name="Comments"
         component={CommentsScreen}
-        options={{ headerShown: false }}
+        options={{
+          header: ({ navigation, route, options }) => {
+            return (
+              <Header
+                back
+                onClickBack={() => {
+                  navigation.navigate("DefaultPosts");
+                }}
+                title="Комментарии"
+              />
+            );
+          },
+        }}
       />
       <Stack.Screen
         name="Map"
         component={MapScreen}
-        options={{ headerShown: false }}
+        options={{
+          header: ({ navigation, route, options }) => {
+            return (
+              <Header
+                back
+                onClickBack={() => {
+                  navigation.navigate("DefaultPosts");
+                }}
+                title="Карта"
+              />
+            );
+          },
+        }}
       />
     </Stack.Navigator>
   );

@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import LogoutIcon from "../assets/images/log-out.svg";
 import LeftArrowIcon from "../assets/images/arrow-left.svg";
+import LogOutButton from "./LogOutButton";
 
-export function Header({ onClickBack, onClickLogout, logout, back, title }) {
+export default function Header({ onClickBack, logout, back, title }) {
   return (
     <View style={styles.container}>
       {back && (
@@ -12,9 +12,9 @@ export function Header({ onClickBack, onClickLogout, logout, back, title }) {
       )}
       <Text style={styles.title}>{title}</Text>
       {logout && (
-        <TouchableOpacity style={styles.logout} onPress={onClickLogout}>
-          <LogoutIcon width={24} height={24} />
-        </TouchableOpacity>
+        <View style={styles.logout}>
+          <LogOutButton />
+        </View>
       )}
     </View>
   );
